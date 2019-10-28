@@ -1,5 +1,7 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import uuid from 'uuid/v4';
+
 import Modal from '../modal/index';
 import Header from '../Header';
 import Form from '../Form';
@@ -10,63 +12,60 @@ import { When } from '../if';
 
 import './todo.scss';
 
-class ToDo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todoList: [],
-      item: {},
-      showDetails: false,
-      details: {},
-    };
-  }
+function ToDo() {
 
-  handleInputChange = e => {
-    let { name, value } = e.target;
-    this.setState(state => ({
-      item: {...state.item, [name]: value},
-    }));
-  };
-
-  handleSubmit = (e) => {
-    this.props.handleSubmit(this.state.item);
-  };
-
-  addItem = (e) => {
-
+  let startTodoList = [];
+  let [todoList, setList] = useState(startTodoList);
+  
+  addItem((e) => {
     e.preventDefault();
     e.target.reset();
 
     const defaults = { _id: uuid(), complete:false };
-    const item = Object.assign({}, this.state.item, defaults);
+    const item = Object.assign({}, state.item, defaults);
 
-    this.setState(state => ({
-      todoList: [...state.todoList, item],
-      item: {},
+    setList(todoList.concat(item.toArray()));
+  });
+
+  let initialItem = {};
+  let [item, setItem] = useState(initialItem);
+  
+  let showDetails = false;
+  let details = {};
+
+  handleInputChange((e) => {
+    let { name, value } = e.target;
+    setState(state => ({
+      item: {...state.item, [name]: value},
     }));
+  });
 
-  };
+  handleSubmit((e) => {
+    props.handleSubmit(state.item);
+  });
 
-  deleteItem = id => {
+  
 
-    this.setState(state => ({
+  deleteItem((id) => {
+
+    setState(state => ({
       todoList: state.todoList.filter(item => item._id !== id),
     }));
 
-  };
+  });
 
-  saveItem = updatedItem => {
+  saveItem((updatedItem) => {
 
-    this.setState(state => ({
+    setState(state => ({
       todoList: state.todoList.map(item =>
         item._id === updatedItem._id ? updatedItem : item
       ),
     }));
 
-  };
+  });
 
-  toggleComplete = id => {
-    this.setState(state => ({
+  toggleComplete((id) => {
+    setState(state => ({
       todoList: state.todoList.map(item =>
         item._id === id ? {
           ...item,
@@ -74,46 +73,43 @@ class ToDo extends React.Component {
         } : item
       ),
     }));
-  };
+  });
 
-  toggleDetails = id => {
-    this.setState(state => {
+  toggleDetails((id) => {
+    setState(state => {
       let item = state.todoList.find(item => item._id === id);
       return {
         details: item || {},
         showDetails: !!item,
       };
     });
-  }
+  })
 
-  render() {
-
-    return (
-      <>
-        <Header
-          todoList={this.state.todoList}
+  return (
+    <>
+      <Header
+        todoList={state.todoList}
+      />
+      <section className="todo">
+        <Form 
+          addItem={addItem}
+          handleInputChange={handleInputChange}
         />
-        <section className="todo">
-          <Form 
-            addItem={this.addItem}
-            handleInputChange={this.handleInputChange}
-          />
-          <List 
-            todoList={this.state.todoList}
-            toggleComplete={this.toggleComplete}
-            toggleDetails={this.toggleDetails}
-            deleteItem={this.deleteItem}
-          />
-        </section>
-        
-      <When condition={this.state.showDetails}>
-        <Modal title="To Do Item" close={this.toggleDetails}>
-          <Details details={this.state.details}></Details>
-        </Modal>
-      </When>
-      </>
-    );
-  }
+        <List 
+          todoList={state.todoList}
+          toggleComplete={toggleComplete}
+          toggleDetails={toggleDetails}
+          deleteItem={deleteItem}
+        />
+      </section>
+      
+    <When condition={state.showDetails}>
+      <Modal title="To Do Item" close={toggleDetails}>
+        <Details details={state.details}></Details>
+      </Modal>
+    </When>
+    </>
+  );
 }
 
 export default ToDo;
