@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './modal.module.scss';
 
-const Modal = props => {
+const Details = props => {
   return (
     <div className={styles.modal}>
       <div>
@@ -15,4 +15,5 @@ const Modal = props => {
     </div>
   );
 };
-export default Modal;
+
+export default Details;

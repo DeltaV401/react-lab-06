@@ -1,9 +1,12 @@
 import React from 'react';
 import uuid from 'uuid/v4';
-import Modal from '../Modal';
+import Modal from '../modal/index';
 import Header from '../Header';
 import Form from '../Form';
 import List from '../List';
+import Details from '../modal/Details';
+
+import { When } from '../if';
 
 import './todo.scss';
 
@@ -102,11 +105,12 @@ class ToDo extends React.Component {
             deleteItem={this.deleteItem}
           />
         </section>
-        <Modal 
-          details={this.state.details}
-          showDetails={this.showDetails}
-          toggleDetails={this.toggleDetails}
-        />
+        
+      <When condition={this.state.showDetails}>
+        <Modal title="To Do Item" close={this.toggleDetails}>
+          <Details details={this.state.details}></Details>
+        </Modal>
+      </When>
       </>
     );
   }
