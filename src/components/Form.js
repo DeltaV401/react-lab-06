@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import uuid from 'uuid/v4';
 
 const Form = () => {
   let [item, setItem] = useState({});
@@ -9,9 +10,9 @@ const Form = () => {
     e.target.reset();
 
     const defaults = { _id: uuid(), complete:false };
-    const item = Object.assign({}, item, defaults);
+    const newItem = Object.assign({}, item, defaults);
 
-    props.addItem(item);
+    props.addItem(newItem);
 
     setItem({});
   };

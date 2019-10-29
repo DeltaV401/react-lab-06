@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import uuid from 'uuid/v4';
 
 import Modal from '../modal/index';
 import Header from '../Header';
