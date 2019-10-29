@@ -1,6 +1,30 @@
 import React from 'react';
+import { useState } from 'react';
 
 const Form = () => {
+  let [item, setItem] = useState({});
+
+  const addItem = (e) => {
+    e.preventDefault();
+    e.target.reset();
+
+    const defaults = { _id: uuid(), complete:false };
+    const item = Object.assign({}, item, defaults);
+
+    props.addItem(item);
+
+    setItem({});
+  };
+
+  const handleInputChange = (e) => {
+    let { name, value } = e.target;
+    setItem({...item, [name]: value});
+  };
+
+  const handleSubmit = (e) => {
+    props.handleSubmit(state.item);
+  };
+
   return (
     <div>
       <h3>Add Item</h3>
