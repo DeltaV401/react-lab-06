@@ -1,45 +1,52 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 
 import Modal from '../modal/index';
 import Header from '../Header';
 import Form from '../Form';
-import List from '../List';
+import Item from '../Item';
 import Details from '../modal/Details';
 
 import { When } from '../if';
 
 import './todo.scss';
 
-function ToDo() {
-  
-  const addItem = item => {
+class ToDo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todoList: [],
+      showDetails: false,
+      details: {},
+    };
+  }
+
+  addItem = item => {
     this.setState(state => ({
       todoList: [...state.todoList, item],
     }));
   }
 
-  const deleteItem = (id) => {
+  deleteItem = (id) => {
 
-    setState(state => ({
-      todoList: this.state.todoList.filter(item => item._id !== id),
+    this.setState(state => ({
+      todoList: state.todoList.filter(item => item._id !== id),
     }));
 
   };
 
-  const saveItem = (updatedItem) => {
+  saveItem = (updatedItem) => {
 
-    setState(state => ({
-      todoList: this.state.todoList.map(item =>
+    this.setState(state => ({
+      todoList: state.todoList.map(item =>
         item._id === updatedItem._id ? updatedItem : item
       ),
     }));
 
   };
 
-  const toggleComplete = (id) => {
-    setState(state => ({
-      todoList: this.state.todoList.map(item =>
+  toggleComplete = (id) => {
+    this.setState(state => ({
+      todoList: state.todoList.map(item =>
         item._id === id ? {
           ...item,
           complete: !item.complete,
@@ -48,9 +55,9 @@ function ToDo() {
     }));
   };
 
-  const toggleDetails = (id) => {
-    setState(state => {
-      let item = this.state.todoList.find(item => item._id === id);
+  toggleDetails = id => {
+    this.setState(state => {
+      let item = state.todoList.find(item => item._id === id);
       return {
         details: item || {},
         showDetails: !!item,
@@ -58,36 +65,37 @@ function ToDo() {
     });
   };
 
-  return (
-    <>
-      <Header
-        todoList={this.state.todoList}
-      />
-      <section className="todo">
-        <Form 
-          addItem={addItem}
-          handleInputChange={handleInputChange}
+  render() {
+    return (
+      <>
+        <Header
+          todoList={this.state.todoList}
         />
-        <div>
-          <ul>
-            { this.state.todoList.map(item => (
-              <List item={item}
-                toggleComplete={this.toggleComplete}
-                toggleDetails={this.toggleDetails}
-                deleteItem={this.deleteItem}
-              />
-            ))}
-          </ul>
-        </div>
-      </section>
-      
-    <When condition={state.showDetails}>
-      <Modal title="To Do Item" close={toggleDetails}>
-        <Details details={state.details}></Details>
-      </Modal>
-    </When>
-    </>
-  );
+        <section className="todo">
+          <Form 
+            addItem={this.addItem}
+          />
+          <div>
+            <ul>
+              { this.state.todoList.map(item => (
+                <Item item={item}
+                  toggleComplete={this.toggleComplete}
+                  toggleDetails={this.toggleDetails}
+                  deleteItem={this.deleteItem}
+                />
+              ))}
+            </ul>
+          </div>
+        </section>
+        
+      <When condition={this.state.showDetails}>
+        <Modal title="To Do Item" close={this.toggleDetails}>
+          <Details details={this.state.details}></Details>
+        </Modal>
+      </When>
+      </>
+    );
+  }
 }
 
 export default ToDo;

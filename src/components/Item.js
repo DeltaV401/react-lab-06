@@ -1,6 +1,8 @@
 import React from 'react';
 
-const List = () => {
+const Item = props => {
+  let { item } = props;
+
   return (
     <li
       className={`complete-${item.complete.toString()}`}
@@ -19,4 +21,4 @@ const List = () => {
   )
 }
 
-export default List;
+export default Item;
