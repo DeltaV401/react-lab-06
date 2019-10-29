@@ -4,7 +4,7 @@ import Modal from '../modal/index';
 import Header from '../Header';
 import Form from '../Form';
 import Item from '../Item';
-import Details from '../modal/Details';
+import Details from '../Details';
 
 import { When } from '../if';
 

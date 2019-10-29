@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './modal.module.scss';
+import './modal/modal.module.scss';
 
 const Details = props => {
   return (
