@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Modal from '../modal/index';
 import Header from '../Header';
 import Form from '../Form';
@@ -11,51 +10,26 @@ import { When } from '../if';
 import './todo.scss';
 
 function ToDo() {
-  let [todoList, setTodoList] = useState({});
-  let [showDetails, setShowDetails] = useState({});
+  let [todoList, setTodoList] = useState([]);
+  let [showDetails, setShowDetails] = useState(false);
   let [details, setDetails] = useState({});
 
   const addItem = item => {
-    setTodoList({todoList: [...todoList, item]});
+    setTodoList([...todoList, item]);
   }
 
   const deleteItem = (id) => {
-
-    this.setState(state => ({
-      todoList: state.todoList.filter(item => item._id !== id),
-    }));
-
-  };
-
-  const saveItem = (updatedItem) => {
-
-    this.setState(state => ({
-      todoList: state.todoList.map(item =>
-        item._id === updatedItem._id ? updatedItem : item
-      ),
-    }));
-
+    setTodoList(todoList.filter(item => item._id !== id));
   };
 
   const toggleComplete = (id) => {
-    this.setState(state => ({
-      todoList: state.todoList.map(item =>
-        item._id === id ? {
-          ...item,
-          complete: !item.complete,
-        } : item
-      ),
-    }));
+    setTodoList(todoList.map(item => item._id === id ? {...item, complete: !item.complete} : item));
   };
 
   const toggleDetails = id => {
-    this.setState(state => {
-      let item = state.todoList.find(item => item._id === id);
-      return {
-        details: item || {},
-        showDetails: !!item,
-      };
-    });
+    let item = todoList.find(item => item._id === id);
+    setDetails(item);
+    setShowDetails(!!item);
   };
 
   return (
@@ -82,7 +56,7 @@ function ToDo() {
       
     <When condition={showDetails}>
       <Modal title="To Do Item" close={toggleDetails}>
-        <Details details={details}></Details>
+        <Details details={details}/>
       </Modal>
     </When>
     </>
