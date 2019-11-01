@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Modal from '../modal/index';
 import Header from '../Header';
 import Form from '../Form';
@@ -20,11 +19,11 @@ function ToDo() {
   }
 
   const deleteItem = (id) => {
-    setTodoList(todoList.filter(item => item._id !== id))
+    setTodoList(todoList.filter(item => item._id !== id));
   };
 
   const toggleComplete = (id) => {
-    setTodoList(todoList.map(item => item._id === id ? {...item, complete: !item.complete} : item))
+    setTodoList(todoList.map(item => item._id === id ? {...item, complete: !item.complete} : item));
   };
 
   const toggleDetails = id => {
@@ -57,7 +56,7 @@ function ToDo() {
       
     <When condition={showDetails}>
       <Modal title="To Do Item" close={toggleDetails}>
-        <Details details={details}></Details>
+        <Details details={details}/>
       </Modal>
     </When>
     </>
