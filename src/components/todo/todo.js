@@ -1,29 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import Modal from '../modal/index';
 import Header from '../Header';
 import Form from '../Form';
 import Item from '../Item';
 import Details from '../Details';
 
+import { DELETE, ADD_TO_LIST, TOGGLE_COMPLETE } from '../store/todolist-reducer';
+import { reducer, initialState } from '../store/todolist-reducer';
+
 import { When } from '../if';
 
 import './todo.scss';
 
 function ToDo() {
+  const [state, dispatch] = useReducer(reducer, initialState);
   let [todoList, setTodoList] = useState([]);
   let [showDetails, setShowDetails] = useState(false);
   let [details, setDetails] = useState({});
 
   const addItem = item => {
-    setTodoList([...todoList, item]);
+    dispatch({ type: ADD_TO_LIST, payload: item });
   }
 
-  const deleteItem = (id) => {
-    setTodoList(todoList.filter(item => item._id !== id));
+  const deleteItem = id => {
+    dispatch({ type: DELETE, payload: id });
   };
 
-  const toggleComplete = (id) => {
-    setTodoList(todoList.map(item => item._id === id ? {...item, complete: !item.complete} : item));
+  const toggleComplete = id => {
+    dispatch({ type: TOGGLE_COMPLETE, payload: id });
   };
 
   const toggleDetails = id => {
