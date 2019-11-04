@@ -16,7 +16,6 @@ function ToDo() {
   let [details, setDetails] = useState({});
 
   const callAPI = (url, method='get', body, handler, errorHandler) => {
-
     return fetch(url, {
       method: method,
       mode: 'cors',
@@ -34,6 +33,7 @@ function ToDo() {
 
   const addItem = item => {
     setTodoList([...todoList, item]);
+    console.log(todoList);
   }
 
   const deleteItem = id => {
