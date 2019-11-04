@@ -4,11 +4,17 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './app.js';
 
+import { Provider } from 'react-redux';
+import createStore from './components/store';
+let store = createStore();
+
 class Main extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     );
   }
