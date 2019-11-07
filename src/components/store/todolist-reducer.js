@@ -27,13 +27,13 @@ export function addItem(item) {
 export function deleteItem(id) {
   return {
     type: DELETE,
-    payload: id,
+    payload: { id },
   };
 }
 
 export function toggleComplete(id) {
   return {
     type: TOGGLE_COMPLETE,
-    payload: id,
+    payload: { id },
   };
 }

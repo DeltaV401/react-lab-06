@@ -1,21 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 import App from './app.js';
 
-import { Provider } from 'react-redux';
 import createStore from './components/store';
 let store = createStore();
 
 class Main extends React.Component {
   render() {
     return (
-      <BrowserRouter>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+      </Provider>
     );
   }
 }
