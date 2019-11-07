@@ -5,6 +5,7 @@ import Form from '../Form';
 import Item from '../Item';
 import Details from '../Details';
 import { connect } from 'react-redux';
+import uuid from 'uuid';
 
 import { addItem, deleteItem, toggleComplete } from '../store/todolist-reducer';
 
@@ -13,6 +14,27 @@ import { When } from '../if';
 import './todo.scss';
 
 function ToDo() {
+
+  const addItem = e => {
+    e.preventDefault();
+    e.target.reset();
+
+    const defaults = { _id: uuid(), complete: false };
+    const item = Object.assign({}, this.state.item, defaults);
+
+    this.props.addItem(item);
+    this.setState(state => ({
+      item: {}
+    }))
+  }
+
+  const deleteItem = id => {
+    this.props.deleteItem(id);
+  }
+
+  const toggleComplete = id => {
+    this.props.toggleComplete(id);
+  }
 
   const toggleDetails = id => {
     let item = todoList.find(item => item._id === id);
